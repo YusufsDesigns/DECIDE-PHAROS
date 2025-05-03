@@ -135,7 +135,7 @@ export function CreateContest() {
     }
     
     if (stakeAmountFloat < minStakeFloat) {
-      toast.error(`Stake amount must be at least ${minimumStake} EDU.`, {
+      toast.error(`Stake amount must be at least ${minimumStake} PTT.`, {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -171,8 +171,8 @@ export function CreateContest() {
     // Convert entry fee and stake to wei
     let entryFeeInWei, stakeAmountInWei;
     try {
-      entryFeeInWei = parseEther(values.entryFee); // Convert EDU to wei
-      stakeAmountInWei = parseEther(values.stakeAmount); // Convert EDU to wei
+      entryFeeInWei = parseEther(values.entryFee); // Convert PTT to wei
+      stakeAmountInWei = parseEther(values.stakeAmount); // Convert PTT to wei
     } catch (error) {
       alert("Please enter valid amounts for entry fee and stake.");
       setIsPending(false);
@@ -265,11 +265,11 @@ export function CreateContest() {
             name="stakeAmount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stake Amount (EDU)</FormLabel>
+                <FormLabel>Stake Amount (PTT)</FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
-                      placeholder="Min: 0.05 EDU"
+                      placeholder="Min: 0.05 PTT"
                       className="bg-[#223c49] border-none h-12 pr-24"
                       {...field}
                       onChange={(e) => {
@@ -279,12 +279,12 @@ export function CreateContest() {
                       }}
                     />
                     <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-400">
-                      Balance: {`${parseFloat(walletBalance).toFixed(4)} EDU`}
+                      Balance: {`${parseFloat(walletBalance).toFixed(4)} PTT`}
                     </div>
                   </div>
                 </FormControl>
                 <FormDescription>
-                  Minimum stake required: 0.05 EDU. Your current balance: {`${parseFloat(walletBalance).toFixed(4)} EDU`}
+                  Minimum stake required: 0.05 PTT. Your current balance: {`${parseFloat(walletBalance).toFixed(4)} PTT`}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -312,7 +312,7 @@ export function CreateContest() {
             name="entryFee"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Entry Fee (EDU)</FormLabel>
+                <FormLabel>Entry Fee (PTT)</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="3"

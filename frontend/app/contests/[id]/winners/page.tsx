@@ -157,9 +157,9 @@ const page = () => {
               </DialogHeader>
               <div className="font-bold text-sm">
                 <p>
-                  Amount Staked: {`${parseFloat(stakeAmount).toFixed(4)} EDU`}
+                  Amount Staked: {`${parseFloat(stakeAmount).toFixed(4)} PTT`}
                 </p>
-                <p>Reward: {`${parseFloat(reward).toFixed(6)} EDU`}</p>
+                <p>Reward: {`${parseFloat(reward).toFixed(6)} PTT`}</p>
               </div>
               <Button onClick={claim} className="bg-[#096897]">
                 Claim
@@ -170,7 +170,7 @@ const page = () => {
         <div className="flex items-center gap-1 mb-2">
           <span className="text-4xl">🥇</span>
           <p>
-            {winners[0].proposer} - {amounts.fifty} EDU
+            {winners[0].proposer} - {amounts.fifty} PTT
           </p>
         </div>
         <Alert variant="default" className="border-gray-500">
@@ -185,7 +185,7 @@ const page = () => {
           <div className="flex items-center gap-1 mb-2">
             <span className="text-4xl">🥈</span>
             <p>
-              {winners[1].proposer} - {amounts.thirty} EDU
+              {winners[1].proposer} - {amounts.thirty} PTT
             </p>
           </div>
         )}
@@ -193,7 +193,7 @@ const page = () => {
           <div className="flex items-center gap-1">
             <span className="text-4xl">🥉</span>
             <p>
-              {winners[2].proposer} - {amounts.twenty} EDU
+              {winners[2].proposer} - {amounts.twenty} PTT
             </p>
           </div>
         )}

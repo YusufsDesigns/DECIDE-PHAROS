@@ -138,7 +138,7 @@ contract Decide {
      * @param _name The name of the contest.
      * @param _creator The address or name of the contest creator.
      * @param _description A brief description of the contest.
-     * @param _entryFee The entry fee required to join the contest (in EDU).
+     * @param _entryFee The entry fee required to join the contest (in PTT).
      * @param _entryTime The duration (in seconds) during which users can join the contest.
      * @param _voteTime The duration (in seconds) during which users can vote in the contest.
      *
@@ -191,7 +191,7 @@ contract Decide {
 
     /**
      * @notice Join a Contest
-     * @dev Allows a user to join a specific contest by paying the entry fee in EDU Token (EDU).
+     * @dev Allows a user to join a specific contest by paying the entry fee in Pharos Test Token (PTT).
      * The function handles the entry fee payment and creates a new entry for the user.
      * Several requirements must be met:
      * - The contest must be in OPEN state.
@@ -739,14 +739,14 @@ contract Decide {
      * @notice Returns the amount a user has staked in a specific contest.
      * @param _user The address of the user.
      * @param _contestId The ID of the contest.
-     * @return The amount of EDU tokens staked by the user.
+     * @return The amount of PTT tokens staked by the user.
      */
     function getUserStakedAmount(address _user, uint256 _contestId) public view returns (uint256) {
         return s_stakedAmounts[_contestId][_user];
     }
 
     /**
-     * @notice Returns the total amount of EDU tokens staked in a contest.
+     * @notice Returns the total amount of PTT tokens staked in a contest.
      * @param _contestId The ID of the contest.
      * @return The total staked amount for the contest.
      */
@@ -759,7 +759,7 @@ contract Decide {
      * @dev The contest must be in the CLOSED state for rewards to be claimed.
      * @param _contestId The ID of the contest.
      * @param _user The address of the user.
-     * @return stakedAmount The amount of EDU tokens staked by the user.
+     * @return stakedAmount The amount of PTT tokens staked by the user.
      * @return reward The reward amount calculated from the staker reward pool.
      * @dev Reverts if the contest is not yet closed or if the user has no staked tokens.
      */

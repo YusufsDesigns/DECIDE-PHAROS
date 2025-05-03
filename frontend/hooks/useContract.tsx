@@ -3,7 +3,7 @@
 import { Contract, BrowserProvider } from 'ethers';
 import { useWallet } from './useWallet';
 
-const address = "0x71B0bFAb1bf1077c1bc264CeFE079D15E306d2Fe";
+const address = "0xFF7FcC43310c04A0fbc8849fFA6bed251C1B7872";
 
 export const useContractWrite = (abi: any) => {
     const { signer } = useWallet();

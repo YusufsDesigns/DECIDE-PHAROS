@@ -230,7 +230,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="border-2 border-[#1a2f39] rounded-md p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               {contest?.state == "OPEN" ? (
-                <p className="font-bold">Entry fee - {contest?.entryFee} EDU</p>
+                <p className="font-bold">Entry fee - {contest?.entryFee} PTT</p>
               ) : contest?.state == "VOTING" ? (
                 <p className="font-bold">Next Phase - {contest?.nextPhase}</p>
               ) : (
@@ -266,7 +266,7 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
                 <DialogHeader>
                   <DialogTitle>Join {contest?.name}</DialogTitle>
                   <DialogDescription>
-                    You need to pay an amount of {contest?.entryFee} EDU to
+                    You need to pay an amount of {contest?.entryFee} PTT to
                     join.
                   </DialogDescription>
                   <CreateEntry

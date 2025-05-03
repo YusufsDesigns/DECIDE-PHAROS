@@ -96,7 +96,7 @@ const EntryCard = ({
         }
 
         if (stakeAmountFloat < minStakeFloat) {
-          toast.error(`Stake amount must be at least ${minimumStake} EDU.`, {
+          toast.error(`Stake amount must be at least ${minimumStake} PTT.`, {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -218,10 +218,10 @@ const EntryCard = ({
               <DialogTitle>Vote for {entry.proposer}</DialogTitle>
             </DialogHeader>
             <p>Entry Name: {entry.name}</p>
-            <Label htmlFor="stake">Stake Amount (EDU)</Label>
+            <Label htmlFor="stake">Stake Amount (PTT)</Label>
             <div className="relative">
               <Input
-                placeholder="Min: 0.005 EDU"
+                placeholder="Min: 0.005 PTT"
                 id="stake"
                 value={stakeAmount}
                 className="bg-[#223c49] border-none h-12 pr-24"
@@ -232,12 +232,12 @@ const EntryCard = ({
                 }}
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-400">
-                Balance: {`${parseFloat(walletBalance).toFixed(4)} EDU`}
+                Balance: {`${parseFloat(walletBalance).toFixed(4)} PTT`}
               </div>
             </div>
             <p className="text-[0.8rem] text-muted-foreground">
-              Minimum stake required: 0.005 EDU. Your current balance:{" "}
-              {`${parseFloat(walletBalance).toFixed(4)} EDU`}
+              Minimum stake required: 0.005 PTT. Your current balance:{" "}
+              {`${parseFloat(walletBalance).toFixed(4)} PTT`}
             </p>
             <Button
               isLoading={isPending}

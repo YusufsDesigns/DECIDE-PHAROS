@@ -12,21 +12,21 @@ declare global {
   }
 }
 
-// Network configuration
-const EDU_CHAIN_ID = "0xA045C"; // Chain ID for Edu Chain
-const EDU_CHAIN_CONFIG = {
-  chainId: EDU_CHAIN_ID,
-  chainName: "Open Campus Codex",
+// Pharos Devnet configuration
+const PHAROS_CHAIN_ID = "0xc352"; // 50002 in hex
+const PHAROS_CHAIN_CONFIG = {
+  chainId: PHAROS_CHAIN_ID,
+  chainName: "Pharos Devnet",
   nativeCurrency: {
-    name: "EDU",
-    symbol: "EDU",
+    name: "PTT",
+    symbol: "PTT",
     decimals: 18,
   },
-  rpcUrls: ["https://rpc.open-campus-codex.gelato.digital"],
-  blockExplorerUrls: ["https://opencampus-codex.blockscout.com/"],
+  rpcUrls: ["https://devnet.dplabs-internal.com"],
+  blockExplorerUrls: ["https://pharosscan.xyz/"],
 };
 
-// Toast configuration to avoid repetition
+// Toast config
 const TOAST_CONFIG = {
   position: "top-center",
   autoClose: 5000,
@@ -45,16 +45,13 @@ export const useWallet = () => {
   const [academicIdentity, setAcademicIdentity] = useState<string>("");
   const router = useRouter();
 
-  // Initialize provider - ensure it's MetaMask
   useEffect(() => {
     if (!window.ethereum) {
       toast.error("Please install MetaMask to connect", TOAST_CONFIG);
       return;
     }
 
-    // Check if the provider is MetaMask
-    const isMetaMask = window.ethereum.isMetaMask;
-    if (!isMetaMask) {
+    if (!window.ethereum.isMetaMask) {
       toast.error("Please use MetaMask wallet to connect", TOAST_CONFIG);
       return;
     }
@@ -66,8 +63,7 @@ export const useWallet = () => {
     }
   }, []);
 
-  // Switch to Open Campus network
-  const switchToOpenCampusNetwork = useCallback(async () => {
+  const switchToPharosNetwork = useCallback(async () => {
     if (!window.ethereum || !window.ethereum.isMetaMask) {
       toast.error("Please use MetaMask wallet to connect", TOAST_CONFIG);
       return false;
@@ -76,33 +72,28 @@ export const useWallet = () => {
     try {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: EDU_CHAIN_ID }],
+        params: [{ chainId: PHAROS_CHAIN_ID }],
       });
       return true;
     } catch (switchError: any) {
-      // Network doesn't exist in wallet
       if (switchError.code === 4902) {
         try {
           await window.ethereum.request({
             method: "wallet_addEthereumChain",
-            params: [EDU_CHAIN_CONFIG],
+            params: [PHAROS_CHAIN_CONFIG],
           });
           return true;
         } catch (addError) {
-          toast.error("Failed to add Open Campus Codex network", TOAST_CONFIG);
+          toast.error("Failed to add Pharos Devnet", TOAST_CONFIG);
           return false;
         }
       } else {
-        toast.error(
-          "Failed to switch to Open Campus Codex network",
-          TOAST_CONFIG
-        );
+        toast.error("Failed to switch to Pharos Devnet", TOAST_CONFIG);
         return false;
       }
     }
   }, []);
 
-  // Handle wallet connection - MetaMask only
   const connectWallet = useCallback(async (): Promise<void> => {
     setIsConnecting(true);
 
@@ -112,15 +103,13 @@ export const useWallet = () => {
       return;
     }
 
-    // Verify we're using MetaMask
     if (!window.ethereum || !window.ethereum.isMetaMask) {
       toast.error("Please use MetaMask wallet to connect", TOAST_CONFIG);
       setIsConnecting(false);
       return;
     }
 
-    // Ensure correct network
-    const networkSwitched = await switchToOpenCampusNetwork();
+    const networkSwitched = await switchToPharosNetwork();
     if (!networkSwitched) {
       toast.error("Network switch failed", TOAST_CONFIG);
       setIsConnecting(false);
@@ -128,12 +117,10 @@ export const useWallet = () => {
     }
 
     try {
-      // Request accounts - direct MetaMask prompt
       await provider.send("eth_requestAccounts", []);
       const newSigner = await provider.getSigner();
       const newAddress = await newSigner.getAddress();
 
-      // Update state and storage
       localStorage.setItem("walletAddress", newAddress);
       setSigner(newSigner);
       setAddress(newAddress);
@@ -142,11 +129,11 @@ export const useWallet = () => {
         try {
           const username = generateEducationalUsername(newAddress);
           setAcademicIdentity(username);
-
         } catch (error) {
           console.error("Error generating academic identity:", error);
         }
       }
+
       router.push("/contests");
     } catch (err: any) {
       const errorMessage =
@@ -157,16 +144,14 @@ export const useWallet = () => {
           : err.message || "Failed to connect wallet";
 
       toast.error(errorMessage, TOAST_CONFIG);
-
       setSigner(null);
       setAddress(null);
       localStorage.removeItem("walletAddress");
     } finally {
       setIsConnecting(false);
     }
-  }, [provider, switchToOpenCampusNetwork]);
+  }, [provider, switchToPharosNetwork]);
 
-  // Disconnect wallet
   const disconnect = useCallback(() => {
     setSigner(null);
     setAddress(null);
@@ -174,7 +159,6 @@ export const useWallet = () => {
     localStorage.removeItem("walletAddress");
   }, []);
 
-  // Check if wallet was previously connected
   const checkConnection = useCallback(async () => {
     if (!provider || !window.ethereum || !window.ethereum.isMetaMask) return;
 
@@ -191,11 +175,11 @@ export const useWallet = () => {
         const confirmedAddress = await newSigner.getAddress();
         setSigner(newSigner);
         setAddress(confirmedAddress);
+
         if (newSigner) {
           try {
             const username = generateEducationalUsername(confirmedAddress);
             setAcademicIdentity(username);
-  
           } catch (error) {
             console.error("Error generating academic identity:", error);
           }
@@ -209,14 +193,12 @@ export const useWallet = () => {
     }
   }, [provider]);
 
-  // Initial connection check
   useEffect(() => {
     if (provider && window.ethereum && window.ethereum.isMetaMask) {
       checkConnection();
     }
   }, [provider, checkConnection]);
 
-  // Handle account and chain changes
   useEffect(() => {
     if (!window.ethereum || !window.ethereum.isMetaMask) return;
 
@@ -234,7 +216,6 @@ export const useWallet = () => {
             try {
               const username = generateEducationalUsername(newAddress);
               setAcademicIdentity(username);
-    
             } catch (error) {
               console.error("Error generating academic identity:", error);
             }
@@ -248,10 +229,10 @@ export const useWallet = () => {
 
     const handleChainChanged = async () => {
       const chainId = await window.ethereum.request({ method: "eth_chainId" });
-      if (chainId !== EDU_CHAIN_ID) {
-        const switched = await switchToOpenCampusNetwork();
+      if (chainId !== PHAROS_CHAIN_ID) {
+        const switched = await switchToPharosNetwork();
         if (!switched) {
-          toast.error("Please connect to the Edu Chain network", TOAST_CONFIG);
+          toast.error("Please connect to the Pharos Devnet network", TOAST_CONFIG);
         }
       }
     };
@@ -263,7 +244,7 @@ export const useWallet = () => {
       window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
       window.ethereum.removeListener("chainChanged", handleChainChanged);
     };
-  }, [provider, disconnect, switchToOpenCampusNetwork]);
+  }, [provider, disconnect, switchToPharosNetwork]);
 
   return {
     signer,
