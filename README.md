@@ -25,8 +25,7 @@ Through a **crowdsourced funding model**, participants submit a **small fee to j
 - **Foundry** – Development framework for Ethereum smart contracts.
 
 ### Deployment
-- **EduChain Testnet** – Test and deploy contracts.
-- **IPFS (Optional)** – Decentralized storage for contest submissions.
+- **Pharos Devnet** – Test and deploy contracts.
 
 ## Installation and Setup
 ### Prerequisites
