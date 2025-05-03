@@ -73,12 +73,8 @@ Modify `script/Deploy.s.sol` with your settings and run:
 ```sh
 NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast
 
-ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
-	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --account myAccount --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvv
-endif
-
-ifeq ($(findstring --network edu-chain,$(ARGS)),--network edu-chain)
-	NETWORK_ARGS := --rpc-url https://rpc.open-campus-codex.gelato.digital/ --account eduAccount1 --skip-simulation --broadcast
+ifeq ($(findstring --network pharos,$(ARGS)),--network pharos)
+	NETWORK_ARGS := --rpc-url https://devnet.dplabs-internal.com --account myWallet --skip-simulation --broadcast
 endif
 
 deploy:
